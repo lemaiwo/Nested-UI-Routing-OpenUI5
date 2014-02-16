@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<script id="sap-ui-bootstrap"
+			type="text/javascript"
+			src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+			data-sap-ui-libs="sap.ui.commons,sap.ui.ux3"
+			data-sap-ui-theme="sap_bluecrystal"
+			data-sap-ui-xx-bindingSyntax="complex"
+			>
+	</script>
+	<link rel="stylesheet" type="text/css" href="style/masterpage.css" media="screen" />
+		<!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
+
+		<script>
+		jQuery.sap.registerModulePath("sap.ui.core.samples.routing", "./");
+	    jQuery.sap.registerModulePath('sap.custom.routing.Router', 'components/RouterCustom/');
+		jQuery.sap.require("sap.custom.routing.Router");
+				
+
+		sap.ui.localResources("customsapui5");
+
+		var oRouter = new sap.ui.core.routing.Router([{
+				pattern: "",
+				name: "_main",
+				views:[{
+					view: "customsapui5.main",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"content"
+				},
+				{
+					view: "customsapui5.GeneralWidget",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"contentWidget"
+				},
+				{
+					view: "customsapui5.TitleWidget",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"headerWidget"
+				}]
+			}
+			,
+			{
+				pattern: "weather",
+				name: "_weather",
+				views:[{
+					view: "customsapui5.WeatherContent",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"content"
+				},
+				{
+					view: "customsapui5.WeatherWidget",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"contentWidget"
+				},
+				{
+					view: "customsapui5.TitleWidget",
+					viewType: sap.ui.core.mvc.ViewType.HTML,
+					div:"headerWidget"
+				}]
+			}
+		]);
+		oRouter.register("appRouter");
+		oRouter.initialize();
+		
+		var oModel = new sap.ui.model.json.JSONModel({ title: "Nested UI Routing in SAPUI5" });
+		sap.ui.getCore().setModel(oModel);
+		jQuery(function() {sap.ui.template();});
+		
+		var view = sap.ui.view({id:"idmenu1", viewName:"customsapui5.menu", type:sap.ui.core.mvc.ViewType.HTML});
+		view.placeAt("menu");
+		</script>
+
+	</head>
+	<body class="sapUiBody" role="application">
+		<div id="overview" class="center">
+			<div id="header">
+				<div id="headerImage" class="left"><img src="images/sapui5.png"></div>
+				<div id="subheader" class="right">
+					<div id="headerTitle" data-type="text/x-handlebars-template"><h1>{{text path="/title"}}</h1></div>
+					<div id="headerWidget" ></div>
+				</div>
+			</div>
+			<div id="menu"></div>
+			<div id="main">
+				<div id="contentWidget" class="left"></div>
+				<div id="content" class="right"></div>
+			</div>
+		</div>
+	</body>
+</html>
